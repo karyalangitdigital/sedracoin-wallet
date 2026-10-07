@@ -1,0 +1,122 @@
+<div align="center">
+  <img src="assets/sedra.png" alt="Sedra Wallet Logo" width="120" />
+  <h1>Sedra Wallet</h1>
+  <p>The Ultimate Self-Custodial Wallet for the Sedra (SDR) Network.</p>
+</div>
+
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License: MIT"/></a>
+  <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white" alt="Flutter"/></a>
+  <img src="https://img.shields.io/badge/platform-Android%20%7C%20iOS-lightgrey" alt="Platform: Android & iOS"/>
+  <a href="https://sedracoin.com"><img src="https://img.shields.io/badge/network-Sedra%20(SDR)-orange" alt="Network: Sedra"/></a>
+  <img src="https://img.shields.io/badge/status-active-success" alt="Status: active"/>
+</p>
+
+## What is Sedra Wallet?
+
+Sedra Wallet is a fast, secure, and intuitive self-custodial wallet designed specifically for the **Sedra** blockchain ecosystem. Built with Flutter, it interacts seamlessly with Sedra's BlockDAG / GHOSTDAG architecture, offering users full control over their funds with robust local security.
+
+Developed by **KARYA LANGIT DIGITAL**.
+
+## Key Features
+
+### 🛡️ Core Wallet Capabilities
+- **Self-Custodial & Secure**: You own your private keys. Securely stored locally using encrypted storage and protected via biometric authentication (Face ID / Fingerprint).
+- **Fast Transactions**: Near-instant Sedra (SDR) transfers leveraging BlockDAG's rapid sub-second finality.
+- **QR Code Support**: Effortlessly send and receive funds by scanning or sharing QR codes.
+- **UTXO Management**: Native compound UTXO feature to merge small mining or transfer UTXOs into a single large UTXO for optimal speed and low fees.
+- **Multilingual Support**: Available in multiple languages to support Sedra's global community.
+
+### 🤖 Built-in Sedra AI Assistant
+- An integrated smart assistant powered by AI.
+- Exclusively dedicated to answering questions regarding the Sedra ecosystem, BlockDAG technology, SDR tokenomics, mining (kHeavyHash), and wallet usage.
+- Automatically adapts to the wallet's active language.
+
+### 🔌 Resilient Network Connectivity
+- **Smart Fallback Mechanism**: Interacts with the blockchain using high-performance gRPC over HTTP/2. If the node connection fails or ALPN is unsupported, the wallet instantly and gracefully falls back to the REST API without crashing or degrading user experience.
+- **Custom Node Configuration**: Flexibility to connect to custom public or private Sedra nodes (with or without TLS/SSL).
+
+## Architecture
+
+The app is organized around a **Riverpod** state layer on top of a **gRPC/REST** RPC service with a built-in **circuit breaker + REST fallback**, so balances, UTXOs, and history keep updating even when the node is unreachable.
+
+```mermaid
+graph TD
+    UI["Flutter UI - Riverpod + Hooks"] --> WM["Wallet Manager / HD Keys (BIP39-BIP44)"]
+    UI --> TN["Transaction & UTXO Notifiers"]
+    TN --> TB["Transaction Builder"]
+    TB --> SG["Signer - Schnorr / ECDSA"]
+    SG --> RPC["GrpcService"]
+    RPC --> CB{"Circuit Breaker"}
+    CB -->|healthy, TLS| NODE[("Sedra Node - n.sedra-seed-3:443")]
+    CB -->|down or ALPN unsupported| API[("REST - api.sedracoin.com")]
+    NODE --> STR["Notification streams - UTXOs & DAA score"]
+    STR --> TN
+    API --> POLL["REST polling fallback"]
+    POLL --> TN
+    API --> DATA["Balance / UTXO set / tx history"]
+    DATA --> TN
+```
+
+### Send-transaction flow
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant S as Send Sheet
+    participant B as Tx Builder
+    participant G as Signer
+    participant R as RPC (gRPC/REST)
+    U->>S: Enter recipient + amount
+    S->>B: Select UTXOs & estimate fee
+    B->>G: Sign inputs
+    G-->>B: Signed raw transaction
+    B->>R: SubmitTransaction
+    R-->>U: Broadcast result + tx id
+```
+
+## Project Structure
+
+```text
+lib/
+  sedra/        # Core protocol: bip32/bip39, address, tx builder/signer, RPC (gRPC+REST), API
+  wallet*/      # Wallet, keys, auth, balance, signer, home
+  transactions/ # History, sync engine, cache
+  utxos/        # UTXO list, selection, compounding
+  send_sheet/   # Send flow UI
+  receive/      # Address & QR
+  settings*/    # Node, API, explorer, theme, language
+  ai/ push/ coingecko/ ...  # Assistant, notifications, price feed
+```
+
+## Building from Source
+
+To build and run Sedra Wallet locally, ensure you have the [Flutter SDK](https://flutter.dev) installed.
+
+### Android
+```bash
+# Debug mode
+flutter run
+
+# Release APK
+flutter build apk --release
+
+# App Bundle for Google Play
+flutter build appbundle --release
+```
+
+### iOS
+```bash
+# Release build for iOS
+flutter build ios --release
+```
+
+## Useful Links
+- **Sedra Homepage:** [sedracoin.com](https://sedracoin.com)
+- **Sedra Explorer:** [explorer.sedracoin.com](https://explorer.sedracoin.com)
+
+## License
+
+Sedra Wallet is open-source software released under the [MIT License](LICENSE) by **KARYA LANGIT DIGITAL**.
+
+This project is a fork of [Kaspium](https://github.com/azbuky/kaspium) — originally developed by Appditto LLC and the Kaspium Wallet authors — and is adapted for the Sedra network. Upstream MIT copyright notices are retained in the [LICENSE](LICENSE) file.

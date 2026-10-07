@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Launch splash screen with centered circular Sedra logo -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/launchColor" />
+    <item
+        android:width="96dp"
+        android:height="96dp"
+        android:gravity="center">
+        <bitmap
+            android:gravity="fill"
+            android:src="@drawable/splash_logo" />
+    </item>
+</layer-list>
