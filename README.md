@@ -6,11 +6,37 @@
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License: MIT"/></a>
+  <a href="https://github.com/karyalangitdigital/sedracoin-wallet/actions/workflows/ci.yml"><img src="https://github.com/karyalangitdigital/sedracoin-wallet/actions/workflows/ci.yml/badge.svg" alt="CI status"/></a>
   <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white" alt="Flutter"/></a>
   <img src="https://img.shields.io/badge/platform-Android%20%7C%20iOS-lightgrey" alt="Platform: Android & iOS"/>
   <a href="https://sedracoin.com"><img src="https://img.shields.io/badge/network-Sedra%20(SDR)-orange" alt="Network: Sedra"/></a>
   <img src="https://img.shields.io/badge/status-active-success" alt="Status: active"/>
+  <a href="https://github.com/karyalangitdigital/sedracoin-wallet/blob/main/CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome"/></a>
+  <a href="https://github.com/karyalangitdigital/sedracoin-wallet/issues"><img src="https://img.shields.io/github/issues/karyalangitdigital/sedracoin-wallet" alt="Open issues"/></a>
 </p>
+
+---
+
+## Table of Contents
+
+- [What is Sedra Wallet?](#what-is-sedra-wallet)
+- [Key Features](#key-features)
+  - [Core Wallet Capabilities](#core-wallet-capabilities)
+  - [Built-in Sedra AI Assistant](#built-in-sedra-ai-assistant)
+  - [Resilient Network Connectivity](#resilient-network-connectivity)
+- [Screenshots](#screenshots)
+- [Architecture](#architecture)
+  - [Send-transaction flow](#send-transaction-flow)
+- [Project Structure](#project-structure)
+- [Building from Source](#building-from-source)
+  - [Android](#android)
+  - [iOS](#ios)
+- [Contributing](#contributing)
+- [Roadmap](#roadmap)
+- [Support](#support)
+- [Acknowledgments](#acknowledgments)
+- [Useful Links](#useful-links)
+- [License](#license)
 
 ## What is Sedra Wallet?
 
@@ -20,23 +46,23 @@ Developed by **KARYA LANGIT DIGITAL**.
 
 ## Key Features
 
-### 🛡️ Core Wallet Capabilities
+### Core Wallet Capabilities
 - **Self-Custodial & Secure**: You own your private keys. Securely stored locally using encrypted storage and protected via biometric authentication (Face ID / Fingerprint).
 - **Fast Transactions**: Near-instant Sedra (SDR) transfers leveraging BlockDAG's rapid sub-second finality.
 - **QR Code Support**: Effortlessly send and receive funds by scanning or sharing QR codes.
 - **UTXO Management**: Native compound UTXO feature to merge small mining or transfer UTXOs into a single large UTXO for optimal speed and low fees.
 - **Multilingual Support**: Available in multiple languages to support Sedra's global community.
 
-### 🤖 Built-in Sedra AI Assistant
+### Built-in Sedra AI Assistant
 - An integrated smart assistant powered by AI.
 - Exclusively dedicated to answering questions regarding the Sedra ecosystem, BlockDAG technology, SDR tokenomics, mining (kHeavyHash), and wallet usage.
 - Automatically adapts to the wallet's active language.
 
-### 🔌 Resilient Network Connectivity
+### Resilient Network Connectivity
 - **Smart Fallback Mechanism**: Interacts with the blockchain using high-performance gRPC over HTTP/2. If the node connection fails or ALPN is unsupported, the wallet instantly and gracefully falls back to the REST API without crashing or degrading user experience.
 - **Custom Node Configuration**: Flexibility to connect to custom public or private Sedra nodes (with or without TLS/SSL).
 
-## 📸 Screenshots
+## Screenshots
 
 <p align="center"><sub>Add your app UI captures to <code>docs/screenshots/</code> using the file names below and they will appear here.</sub></p>
 
@@ -128,9 +154,46 @@ flutter build appbundle --release
 flutter build ios --release
 ```
 
+## Contributing
+
+Contributions of all kinds are welcome — bug reports, translations, code, docs. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request. By participating, you also agree to the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+- 🐞 Report bugs / request features via the [issue templates](https://github.com/karyalangitdigital/sedracoin-wallet/issues/new/choose).
+- 🛡️ Report security issues privately — see [SECURITY.md](SECURITY.md).
+- 🌐 Help translate into your language — see [TRANSLATORS.md](TRANSLATORS.md).
+
+## Roadmap
+
+Sedra Wallet is under active development. Priorities for upcoming releases:
+
+- [ ] Reachable TLS-enabled Sedra gRPC endpoints so real-time subscription streams replace REST polling.
+- [ ] Hardware-wallet / external-signer support.
+- [ ] In-app fiat on/off-ramp integrations.
+- [ ] Batched multi-output transactions and BIP21 payment-request URIs.
+- [ ] WalletConnect-style dApp bridge.
+
+Suggestions and volunteers are welcome — open a feature-request issue to discuss.
+
+## Support
+
+- **User support / general questions:** [support@sedracoin.com](mailto:support@sedracoin.com)
+- **Developer discussion:** [GitHub Discussions](https://github.com/karyalangitdigital/sedracoin-wallet/discussions)
+- **Bug tracker:** [GitHub Issues](https://github.com/karyalangitdigital/sedracoin-wallet/issues)
+
+## Acknowledgments
+
+- The **Kaspium Wallet** authors and **Appditto LLC** — Sedra Wallet is a fork, adapted for the Sedra network.
+- The **Sedra** core team for the network, block explorers and public REST endpoints.
+- The Flutter, Riverpod and open-source crypto communities.
+- Every translator listed in [TRANSLATORS.md](TRANSLATORS.md).
+
 ## Useful Links
+
 - **Sedra Homepage:** [sedracoin.com](https://sedracoin.com)
 - **Sedra Explorer:** [explorer.sedracoin.com](https://explorer.sedracoin.com)
+- **Official Sedra Mobile Wallet (reference upstream):** [github.com/sedracoin/SedraCoinMobileWallet](https://github.com/sedracoin/SedraCoinMobileWallet)
+- **Issue tracker:** [github.com/karyalangitdigital/sedracoin-wallet/issues](https://github.com/karyalangitdigital/sedracoin-wallet/issues)
+- **Security policy:** [SECURITY.md](SECURITY.md)
 
 ## License
 

@@ -1,0 +1,34 @@
+# Normalize line endings: repo stores LF, checkout uses LF.
+* text=auto eol=lf
+
+# Binary files (never touch line endings)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.ttf binary
+*.otf binary
+*.woff binary
+*.woff2 binary
+*.zip binary
+*.jar binary
+*.keystore binary
+*.jks binary
+*.pdf binary
+*.mp4 binary
+*.mov binary
+
+# Windows-specific scripts must keep CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Shell scripts and the gradle wrapper must be LF
+gradlew text eol=lf
+*.sh text eol=lf
+
+# Mark generated files so diffs collapse them
+*.g.dart generated linguist-generated=true
+*.freezed.dart generated linguist-generated=true
+app_localizations*.dart generated linguist-generated=true

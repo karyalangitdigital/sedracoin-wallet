@@ -1,0 +1,42 @@
+name: "\U0001F4A1 Feature request"
+description: Suggest an idea or improvement for Sedra Wallet.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an improvement! Please focus on **what the user needs**, not how to implement it — implementation details are welcome but optional.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem this feature solves
+      placeholder: I'm always frustrated when ...
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      placeholder: A clear description of what you'd like to see.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      placeholder: Other ways you've tried or thought about.
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      placeholder: Screenshots, mockups, links to prior art in other wallets, etc.
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission checklist
+      options:
+        - label: I searched existing feature requests and this has not been proposed.
+          required: true
+        - label: I'm willing to help test or implement this (optional).
+          required: false
