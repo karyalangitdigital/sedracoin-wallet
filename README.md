@@ -73,7 +73,7 @@ Developed by **KARYA LANGIT DIGITAL**.
     <td align="center"><img src="docs/screenshots/receive.png" width="220" alt="Receive / QR"/><br/><sub>Receive / QR</sub></td>
   </tr>
   <tr>
-    <td align="center"><img src="docs/screenshots/history.png" width="220" alt="Transaction history"/><br/><sub>Transaction History</sub></td>
+    <td align="center"><img src="docs/screenshots/assistant.png" width="220" alt="Sedra Assistant"/><br/><sub>Sedra Assistant</sub></td>
     <td align="center"><img src="docs/screenshots/utxos.png" width="220" alt="UTXO management"/><br/><sub>UTXO Management</sub></td>
     <td align="center"><img src="docs/screenshots/settings.png" width="220" alt="Settings"/><br/><sub>Settings</sub></td>
   </tr>

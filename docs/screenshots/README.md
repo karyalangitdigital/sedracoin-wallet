@@ -1,7 +1,7 @@
 # App Screenshots
 
 Drop the app UI screenshots into **this folder** (`docs/screenshots/`). They are
-displayed in the [top-level README](../../README.md) under **📸 Screenshots**.
+displayed in the [top-level README](../../README.md) under **Screenshots**.
 
 ## Required file names
 
@@ -12,7 +12,7 @@ Use these exact names so the README image links resolve:
 | `home.png`          | Home & balance          |
 | `send.png`          | Send SDR                |
 | `receive.png`       | Receive / QR address    |
-| `history.png`       | Transaction history     |
+| `assistant.png`     | Sedra Assistant         |
 | `utxos.png`         | UTXO management         |
 | `settings.png`      | Settings                |
 
