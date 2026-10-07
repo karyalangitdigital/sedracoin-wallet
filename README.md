@@ -36,6 +36,23 @@ Developed by **KARYA LANGIT DIGITAL**.
 - **Smart Fallback Mechanism**: Interacts with the blockchain using high-performance gRPC over HTTP/2. If the node connection fails or ALPN is unsupported, the wallet instantly and gracefully falls back to the REST API without crashing or degrading user experience.
 - **Custom Node Configuration**: Flexibility to connect to custom public or private Sedra nodes (with or without TLS/SSL).
 
+## 📸 Screenshots
+
+<p align="center"><sub>Add your app UI captures to <code>docs/screenshots/</code> using the file names below and they will appear here.</sub></p>
+
+<table align="center">
+  <tr>
+    <td align="center"><img src="docs/screenshots/home.png" width="220" alt="Home &amp; balance"/><br/><sub>Home &amp; Balance</sub></td>
+    <td align="center"><img src="docs/screenshots/send.png" width="220" alt="Send SDR"/><br/><sub>Send SDR</sub></td>
+    <td align="center"><img src="docs/screenshots/receive.png" width="220" alt="Receive / QR"/><br/><sub>Receive / QR</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/screenshots/history.png" width="220" alt="Transaction history"/><br/><sub>Transaction History</sub></td>
+    <td align="center"><img src="docs/screenshots/utxos.png" width="220" alt="UTXO management"/><br/><sub>UTXO Management</sub></td>
+    <td align="center"><img src="docs/screenshots/settings.png" width="220" alt="Settings"/><br/><sub>Settings</sub></td>
+  </tr>
+</table>
+
 ## Architecture
 
 The app is organized around a **Riverpod** state layer on top of a **gRPC/REST** RPC service with a built-in **circuit breaker + REST fallback**, so balances, UTXOs, and history keep updating even when the node is unreachable.
