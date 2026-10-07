@@ -34,6 +34,7 @@
 - [Contributing](#contributing)
 - [Roadmap](#roadmap)
 - [Support](#support)
+- [Donations](#donations)
 - [Acknowledgments](#acknowledgments)
 - [Useful Links](#useful-links)
 - [License](#license)
@@ -176,9 +177,23 @@ Suggestions and volunteers are welcome — open a feature-request issue to discu
 
 ## Support
 
-- **User support / general questions:** [support@sedracoin.com](mailto:support@sedracoin.com)
+Hit a bug, wallet error, or have a usage question? Reach out any of these ways:
+
+- **Email us directly:** [karyalangitdigital@gmail.com](mailto:karyalangitdigital@gmail.com) — please include app version, device, and steps to reproduce.
+- **Bug tracker:** [GitHub Issues](https://github.com/karyalangitdigital/sedracoin-wallet/issues) — use the [Bug report template](https://github.com/karyalangitdigital/sedracoin-wallet/issues/new?template=bug_report.yml).
 - **Developer discussion:** [GitHub Discussions](https://github.com/karyalangitdigital/sedracoin-wallet/discussions)
-- **Bug tracker:** [GitHub Issues](https://github.com/karyalangitdigital/sedracoin-wallet/issues)
+- **Security issues:** private disclosure only — see [SECURITY.md](SECURITY.md).
+
+## Donations
+
+Sedra Wallet is free and open-source (MIT). If it has been useful to you, you can support ongoing development by sending a small amount of **SDR** to the address below. Scan the QR with any Sedra wallet:
+
+<div align="center">
+  <img src="docs/donation-sedra-qr.png" width="280" alt="Sedra donation QR code"/><br/>
+  <sub>💚 Send SDR to support Sedra Wallet development</sub>
+</div>
+
+Every donation — big or small — helps fund new features, security audits, and translations. Thank you!
 
 ## Acknowledgments
 

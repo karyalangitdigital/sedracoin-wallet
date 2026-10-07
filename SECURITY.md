@@ -10,7 +10,7 @@ Thanks for helping keep Sedra Wallet and its users safe.
    Open a private vulnerability report via the
    [“Report a vulnerability”](https://github.com/karyalangitdigital/sedracoin-wallet/security/advisories/new) form on the Security tab.
 2. **Email fallback**
-   Send a report to **support@sedracoin.com** with the subject line
+   Send a report to **karyalangitdigital@gmail.com** with the subject line
    `Sedra Wallet Security Report`.
 
 Please include:

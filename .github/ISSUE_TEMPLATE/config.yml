@@ -6,3 +6,6 @@ contact_links:
   - name: ❓ General question / support
     url: https://github.com/karyalangitdigital/sedracoin-wallet/discussions
     about: Ask usage or development questions in Discussions.
+  - name: ✉️ Email the maintainer
+    url: mailto:karyalangitdigital@gmail.com
+    about: Prefer email? Write to karyalangitdigital@gmail.com with your app version, device, and steps to reproduce.
