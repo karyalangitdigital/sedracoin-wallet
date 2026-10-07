@@ -190,7 +190,8 @@ Sedra Wallet is free and open-source (MIT). If it has been useful to you, you ca
 
 <div align="center">
   <img src="docs/donation-sedra-qr.png" width="280" alt="Sedra donation QR code"/><br/>
-  <sub>💚 Send SDR to support Sedra Wallet development</sub>
+  <sub>💚 Send SDR to support Sedra Wallet development</sub><br/><br/>
+  <code>sedra:qpqay7yl2j4ct6kufcm92vclm5mtrhlyz544adcxcy7zfrxurthkuugyk0xtu</code>
 </div>
 
 Every donation — big or small — helps fund new features, security audits, and translations. Thank you!
