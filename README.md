@@ -28,6 +28,7 @@
 - [Architecture](#architecture)
   - [Send-transaction flow](#send-transaction-flow)
 - [Project Structure](#project-structure)
+- [Code Intelligence (CodeGraph)](#code-intelligence-codegraph)
 - [Building from Source](#building-from-source)
   - [Android](#android)
   - [iOS](#ios)
@@ -131,6 +132,22 @@ lib/
   receive/      # Address & QR
   settings*/    # Node, API, explorer, theme, language
   ai/ push/ coingecko/ ...  # Assistant, notifications, price feed
+```
+
+## Code Intelligence (CodeGraph)
+
+This codebase is pre-indexed with [CodeGraph](https://github.com/colbymchenry/codegraph) for AI-driven symbol mapping, call graph navigation, and architecture analysis.
+
+To explore or resync the knowledge graph locally:
+```bash
+# Check index status and symbol graph metrics
+codegraph status
+
+# Explore symbols, functions, and call paths
+codegraph explore "WalletService submitTransaction"
+
+# Sync changes after code modifications
+codegraph sync
 ```
 
 ## Building from Source
