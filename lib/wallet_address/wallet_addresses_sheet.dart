@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -7,6 +6,7 @@ import '../app_providers.dart';
 import '../l10n/l10n.dart';
 import '../settings/address_settings.dart';
 import '../settings_advanced/kpub_sheet.dart';
+import '../util/clipboard_util.dart';
 import '../util/ui_util.dart';
 import '../widgets/action_buttons_wrapper.dart';
 import '../widgets/app_simpledialog.dart';
@@ -79,7 +79,7 @@ class WalletAddressesSheet extends HookConsumerWidget {
 
       try {
         final encoded = addresses.map((address) => address.encoded).join('\n');
-        await Clipboard.setData(ClipboardData(text: encoded));
+        await ClipboardUtil.copyAndAutoClear(encoded);
         UIUtil.showSnackbar(l10n.walletAddressesCopied(typeStr));
       } catch (_) {
         UIUtil.showSnackbar(l10n.walletAddressesCopyFailed(typeStr));

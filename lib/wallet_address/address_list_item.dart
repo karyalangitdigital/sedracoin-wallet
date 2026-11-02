@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app_providers.dart';
 import '../l10n/l10n.dart';
 import '../send_sheet/balance_text_widget.dart';
+import '../util/clipboard_util.dart';
 import '../util/ui_util.dart';
 import '../widgets/address_widgets.dart';
 import '../widgets/app_copy_icon.dart';
@@ -43,7 +43,7 @@ class AddressListItem extends ConsumerWidget {
     }
 
     Future<void> copyAddress() async {
-      await Clipboard.setData(ClipboardData(text: address.encoded));
+      await ClipboardUtil.copyAndAutoClear(address.encoded);
       final message = switch (address.type) {
         .receive => l10n.receiveAddressCopied,
         .change => l10n.changeAddressCopied,
@@ -120,7 +120,7 @@ class AddressListItem extends ConsumerWidget {
                       Padding(
                         padding: const .directional(top: 4, start: 20),
                         child: BalanceRowWidget(address: address),
-                      )
+                      ),
                     ],
                   ),
                 ),

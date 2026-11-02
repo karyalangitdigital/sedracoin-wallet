@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -9,6 +8,7 @@ import '../app_providers.dart';
 import '../app_router.dart';
 import '../l10n/l10n.dart';
 import '../send_sheet/send_sheet.dart';
+import '../util/clipboard_util.dart';
 import '../util/ui_util.dart';
 import '../util/util.dart';
 import '../widgets/action_buttons_wrapper.dart';
@@ -62,7 +62,7 @@ class ContactDetails extends HookConsumerWidget {
     }
 
     Future<void> copyAddress() async {
-      await Clipboard.setData(ClipboardData(text: contact.address));
+      await ClipboardUtil.copyAndAutoClear(contact.address);
       addressCopied.value = true;
       addressCopiedTimer.value?.cancel();
       addressCopiedTimer.value = Timer(

@@ -54,6 +54,20 @@ class SendConfirmSheet extends HookConsumerWidget {
     final note = tx.note;
     final isCompoundTx = tx.isCompoundTx;
 
+    // Security fingerprint: clipboard-stealing malware usually swaps middle
+    // characters of an address, so highlight the first and last 4 characters
+    // for a quick visual verification against the intended destination.
+    final encodedAddress = toAddress.encoded;
+    final addressBody = encodedAddress.contains(':')
+        ? encodedAddress.substring(encodedAddress.indexOf(':') + 1)
+        : encodedAddress;
+    final fingerprint = addressBody.length >= 12
+        ? (
+            addressBody.substring(0, 4),
+            addressBody.substring(addressBody.length - 4),
+          )
+        : null;
+
     Future<void> sendTransaction() async {
       final walletService = ref.read(walletServiceProvider);
 
@@ -290,6 +304,29 @@ class SendConfirmSheet extends HookConsumerWidget {
                 address: toAddress,
                 onPressed: isCompoundTx && !rbf ? selectAddress : null,
               ),
+              if (fingerprint != null)
+                Container(
+                  margin: const .only(top: 10),
+                  padding: const .symmetric(horizontal: 30),
+                  child: Text.rich(
+                    TextSpan(
+                      style: styles.textStyleParagraph,
+                      children: [
+                        TextSpan(
+                          text: fingerprint.$1,
+                          style: styles.textStyleParagraphPrimary,
+                        ),
+                        const TextSpan(text: ' •••••• '),
+                        TextSpan(
+                          text: fingerprint.$2,
+                          style: styles.textStyleParagraphPrimary,
+                        ),
+                        TextSpan(text: '\n${l10n.addressFingerprintVerify}'),
+                      ],
+                    ),
+                    textAlign: .center,
+                  ),
+                ),
               Container(
                 margin: const .only(top: 30, bottom: 10),
                 child: Text(

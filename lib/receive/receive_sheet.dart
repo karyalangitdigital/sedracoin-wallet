@@ -12,6 +12,7 @@ import '../app_providers.dart';
 import '../sedra/sedra.dart';
 import '../l10n/l10n.dart';
 import '../send_sheet/account_address_widget.dart';
+import '../util/clipboard_util.dart';
 import '../util/ui_util.dart';
 import '../wallet_address/address_selection_sheet.dart';
 import '../wallet_address/wallet_address.dart';
@@ -68,7 +69,7 @@ class ReceiveSheet extends HookConsumerWidget {
 
     Future<void> copyAddress() async {
       try {
-        await Clipboard.setData(ClipboardData(text: address));
+        await ClipboardUtil.copyAndAutoClear(address);
         UIUtil.showSnackbar(l10n.addressCopied);
       } catch (_) {
         UIUtil.showSnackbar(l10n.addressCopiedFailed);
@@ -77,7 +78,7 @@ class ReceiveSheet extends HookConsumerWidget {
 
     Future<void> copyUri() async {
       try {
-        await Clipboard.setData(ClipboardData(text: sedraUri.toString()));
+        await ClipboardUtil.copyAndAutoClear(sedraUri.toString());
         UIUtil.showSnackbar(l10n.sedraUriCopied);
       } catch (_) {
         UIUtil.showSnackbar(l10n.sedraUriCopyFailed);

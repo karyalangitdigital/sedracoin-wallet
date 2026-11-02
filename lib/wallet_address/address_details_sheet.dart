@@ -8,6 +8,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 import '../app_providers.dart';
 import '../l10n/l10n.dart';
+import '../util/clipboard_util.dart';
 import '../util/ui_util.dart';
 import '../util/util.dart';
 import '../widgets/action_buttons_wrapper.dart';
@@ -42,7 +43,7 @@ class AddressDetailsSheet extends HookConsumerWidget {
 
     Future<void> copyAddress() async {
       try {
-        await Clipboard.setData(ClipboardData(text: address.encoded));
+        await ClipboardUtil.copyAndAutoClear(address.encoded);
         UIUtil.showSnackbar(l10n.addressCopied);
       } catch (_) {
         UIUtil.showSnackbar(l10n.addressCopiedFailed);

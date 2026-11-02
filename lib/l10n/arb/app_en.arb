@@ -25,6 +25,7 @@
   "addressCopied": "Address Copied",
   "addressCopiedFailed": "Failed to copy address",
   "addressDiscovery": "Address Discovery",
+  "addressFingerprintVerify": "Address fingerprint — check these characters match the address you were given.",
   "addressesChecked": "{count} checked",
   "@addressesChecked": {
     "placeholders": {
@@ -327,6 +328,7 @@
   "passwordNoLongerRequiredToOpenParagraph": "You will not need a password to open this wallet.",
   "passwordsDontMatch": "Passwords do not match",
   "passwordWillBeRequiredToOpenParagraph": "This password will be required to open this wallet.",
+  "pasteAddressWarning": "Address pasted from clipboard — verify the beginning and end carefully before sending.",
   "pasteMnemonicError": "Clipboard content is not a valid secret phrase",
   "pending": "pending",
   "pinConfirmError": "Pins do not match",
@@ -404,6 +406,8 @@
   "send": "Send",
   "sendConfirm": "Send",
   "sendError": "An error occurred. Please try again",
+  "sendAnyway": "SEND ANYWAY",
+  "selfAddressMessage": "The destination address belongs to your own wallet. Your balance will not change and you will still pay the network fee. Continue anyway?",
   "sending": "Send",
   "sendNote": "NOTE",
   "sendToAddressTitle": "To",
