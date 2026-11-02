@@ -7,7 +7,6 @@ import 'sedra_knowledge_base.dart';
 
 class GeminiService {
   static const String _prefApiKey = 'sedra_gemini_api_key';
-  static const String _prefModel = 'sedra_gemini_model';
   static const String defaultModel = 'gemini-3.5-flash';
 
   static const List<String> supportedModels = [
@@ -35,19 +34,10 @@ class GeminiService {
 
   bool get hasApiKey => apiKey.isNotEmpty;
 
-  String get selectedModel {
-    final model = _prefs?.getString(_prefModel);
-    if (model != null && model.trim().isNotEmpty) {
-      return model.trim();
-    }
-    return defaultModel;
-  }
-
-  Future<void> setModel(String model) async {
-    if (_prefs != null) {
-      await _prefs.setString(_prefModel, model.trim());
-    }
-  }
+  /// Engine selection is intentionally fixed: every user gets the default
+  /// model (with automatic fallback across [supportedModels] when a model is
+  /// unavailable on their key/quota).
+  String get selectedModel => defaultModel;
 
   Future<void> setApiKey(String key) async {
     if (_prefs != null) {

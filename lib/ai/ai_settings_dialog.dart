@@ -5,7 +5,6 @@ import '../app_providers.dart';
 import '../util/ui_util.dart';
 import '../widgets/buttons.dart';
 import 'ai_chat_notifier.dart';
-import 'gemini_service.dart';
 
 class AiSettingsDialog extends ConsumerStatefulWidget {
   const AiSettingsDialog({super.key});
@@ -16,37 +15,18 @@ class AiSettingsDialog extends ConsumerStatefulWidget {
 
 class _AiSettingsDialogState extends ConsumerState<AiSettingsDialog> {
   late final TextEditingController _controller;
-  late String _selectedModel;
 
   @override
   void initState() {
     super.initState();
     final service = ref.read(geminiServiceProvider);
     _controller = TextEditingController(text: service.apiKey);
-    _selectedModel = service.selectedModel;
   }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
-  }
-
-  String _getModelDisplayName(String model) {
-    switch (model) {
-      case 'gemini-3.5-flash':
-        return 'Sedra Assistant Core (Default)';
-      case 'gemini-3.5-flash-lite':
-        return 'Sedra Assistant Lite (Fast)';
-      case 'gemini-3.6-flash':
-        return 'Sedra Assistant v1.1';
-      case 'gemini-3.7-flash':
-        return 'Sedra Assistant v2.0';
-      case 'gemini-3.8-flash':
-        return 'Sedra Assistant Ultra';
-      default:
-        return 'Sedra Assistant';
-    }
   }
 
   @override
@@ -64,7 +44,6 @@ class _AiSettingsDialogState extends ConsumerState<AiSettingsDialog> {
     Future<void> saveKey() async {
       final key = _controller.text.trim();
       final service = ref.read(geminiServiceProvider);
-      await service.setModel(_selectedModel);
       if (key.isEmpty) {
         await service.clearApiKey();
         UIUtil.showSnackbar(
@@ -136,47 +115,6 @@ class _AiSettingsDialogState extends ConsumerState<AiSettingsDialog> {
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide(color: theme.primary),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              isIndo ? 'Versi Engine' : 'Engine Version',
-              style: styles.textStyleParagraphSmall.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              decoration: BoxDecoration(
-                color: theme.backgroundDarkest,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: theme.text15),
-              ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: _selectedModel,
-                  isExpanded: true,
-                  dropdownColor: theme.backgroundDark,
-                  icon: Icon(Icons.arrow_drop_down, color: theme.text),
-                  style: styles.textStyleParagraph,
-                  items: GeminiService.supportedModels.map((model) {
-                    return DropdownMenuItem<String>(
-                      value: model,
-                      child: Text(
-                        _getModelDisplayName(model),
-                        style: styles.textStyleParagraph,
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (val) {
-                    if (val != null) {
-                      setState(() {
-                        _selectedModel = val;
-                      });
-                    }
-                  },
                 ),
               ),
             ),
