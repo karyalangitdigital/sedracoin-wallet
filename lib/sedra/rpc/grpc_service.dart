@@ -71,10 +71,22 @@ class GrpcService implements RpcService {
   static String _short(Object error) => error.toString().split('\n').first;
 
   void _markGrpcUp() {
+    if (_grpcDown) {
+      // ignore: avoid_print
+      print('gRPC node reachable again — resuming real-time streams');
+    }
     _grpcDown = false;
   }
 
-  void _markGrpcDown() {
+  void _markGrpcDown([Object? error]) {
+    if (!_grpcDown) {
+      // Log once per outage instead of on every failed call, keeping the
+      // console quiet while the node is down and REST fallback is active.
+      // ignore: avoid_print
+      print(
+        'gRPC node unreachable (${error != null ? _short(error) : 'unknown reason'}) — using REST fallback',
+      );
+    }
     _grpcDown = true;
     _grpcRetryAt = DateTime.now().add(_grpcCooldown);
   }
@@ -99,11 +111,7 @@ class GrpcService implements RpcService {
         _markGrpcUp();
         return decodeServerInfo(message);
       } catch (e) {
-        _markGrpcDown();
-        // ignore: avoid_print
-        print(
-          'gRPC getServerInfo failed: ${_short(e)}, falling back to REST API',
-        );
+        _markGrpcDown(e);
       }
     }
 
@@ -202,11 +210,7 @@ class GrpcService implements RpcService {
         _markGrpcUp();
         return message.entries.map(decodeAddressBalance);
       } catch (e) {
-        _markGrpcDown();
-        // ignore: avoid_print
-        print(
-          'gRPC getBalancesByAddresses failed: ${_short(e)}, falling back to REST API',
-        );
+        _markGrpcDown(e);
       }
     }
 
@@ -258,11 +262,7 @@ class GrpcService implements RpcService {
         _markGrpcUp();
         return message.entries.map(decodeUtxo);
       } catch (e) {
-        _markGrpcDown();
-        // ignore: avoid_print
-        print(
-          'gRPC getUtxosByAddresses failed: ${_short(e)}, falling back to REST API',
-        );
+        _markGrpcDown(e);
       }
     }
 
@@ -344,11 +344,7 @@ class GrpcService implements RpcService {
       _markGrpcUp();
       return message.entries.map(decodeMempoolEntryByAddress);
     } catch (e) {
-      _markGrpcDown();
-      // ignore: avoid_print
-      print(
-        'gRPC getMempoolEntriesByAddresses failed: ${_short(e)}, ignoring mempool',
-      );
+      _markGrpcDown(e);
       return [];
     }
   }
@@ -377,7 +373,7 @@ class GrpcService implements RpcService {
       _markGrpcUp();
       return decodeFeeEstimate(message.estimate);
     } catch (e) {
-      _markGrpcDown();
+      _markGrpcDown(e);
       rethrow;
     }
   }
@@ -408,11 +404,7 @@ class GrpcService implements RpcService {
         _markGrpcUp();
         return message.transactionId;
       } catch (e) {
-        _markGrpcDown();
-        // ignore: avoid_print
-        print(
-          'gRPC submitTransaction failed: ${_short(e)}, falling back to REST API',
-        );
+        _markGrpcDown(e);
       }
     }
 

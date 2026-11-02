@@ -17,10 +17,6 @@ typedef GrpcSubscription = ({
   Stream<SedradResponse> notifications,
 });
 
-/// Collapses a possibly multi-line error (e.g. HandshakeException) into its
-/// first line so console output stays readable.
-String _firstLine(Object error) => error.toString().split('\n').first;
-
 class GrpcClient {
   final String? host;
   final int? port;
@@ -142,12 +138,10 @@ class GrpcClient {
             }
           },
           onError: (error) {
-            // Keep the console readable: gRPC failures are expected while the
-            // node is down and callers transparently fall back to REST, so
-            // surface only a compact one-line notice instead of a full
-            // multi-line exception dump.
-            // ignore: avoid_print
-            print('gRPC stream error: ${_firstLine(error)}');
+            // Fail silently here: GrpcService's circuit breaker logs a single
+            // one-line notice when the node goes down and when it recovers,
+            // so per-stream dumps would only add noise. The failed call that
+            // triggered the connect still surfaces the error to callers.
             close();
           },
           onDone: () {
