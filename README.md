@@ -32,6 +32,7 @@
 - [Building from Source](#building-from-source)
   - [Android](#android)
   - [iOS](#ios)
+  - [Testing](#testing)
 - [Contributing](#contributing)
 - [Roadmap](#roadmap)
 - [Support](#support)
@@ -52,7 +53,9 @@ Developed by **KARYA LANGIT DIGITAL**.
 - **Self-Custodial & Secure**: You own your private keys. Securely stored locally using encrypted storage and protected via biometric authentication (Face ID / Fingerprint).
 - **Fast Transactions**: Near-instant Sedra (SDR) transfers leveraging BlockDAG's rapid sub-second finality.
 - **QR Code Support**: Effortlessly send and receive funds by scanning or sharing QR codes.
+- **Deep Links (`sedra:` URIs)**: Payment links with recipient, amount and an optional message/OP_RETURN payload open straight into the send sheet — registered on both Android and iOS.
 - **UTXO Management**: Native compound UTXO feature to merge small mining or transfer UTXOs into a single large UTXO for optimal speed and low fees.
+- **Crash-Resistant by Design**: The whole app boots inside a guarded zone with global Flutter and platform error handlers, so unexpected RPC or storage failures are logged instead of silently crashing the wallet.
 - **Multilingual Support**: Available in multiple languages to support Sedra's global community.
 
 ### Built-in Sedra AI Assistant
@@ -66,7 +69,7 @@ Developed by **KARYA LANGIT DIGITAL**.
 
 ## Screenshots
 
-<p align="center"><sub>Add your app UI captures to <code>docs/screenshots/</code> using the file names below and they will appear here.</sub></p>
+<p align="center"><sub>A glimpse of the Sedra Wallet UI.</sub></p>
 
 <table align="center">
   <tr>
@@ -163,7 +166,13 @@ codegraph sync
 
 ## Building from Source
 
-To build and run Sedra Wallet locally, ensure you have the [Flutter SDK](https://flutter.dev) installed.
+To build and run Sedra Wallet locally, ensure you have the [Flutter SDK](https://flutter.dev) stable channel (`>=3.44.0`, Dart `>=3.12.0`) installed.
+
+```bash
+flutter pub get
+dart run build_runner build --delete-conflicting-outputs   # codegen (freezed / json_serializable / l10n)
+flutter run
+```
 
 ### Android
 ```bash
@@ -178,9 +187,26 @@ flutter build appbundle --release
 ```
 
 ### iOS
+Requires macOS with Xcode 15+ (the `ios/` scaffold is included with the `sedra:` URL schemes, camera and Face ID usage strings pre-configured).
 ```bash
+# Debug on simulator / device
+flutter run
+
 # Release build for iOS
 flutter build ios --release
+
+# CI-style build without code signing
+flutter build ios --release --no-codesign
+```
+
+### Testing
+```bash
+# Static analysis + unit & widget tests
+flutter analyze
+flutter test
+
+# On-device end-to-end smoke test
+flutter test integration_test -d <device-id>
 ```
 
 ## Contributing
