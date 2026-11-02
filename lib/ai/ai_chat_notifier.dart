@@ -48,11 +48,11 @@ class AiChatNotifier extends StateNotifier<AiChatState> {
   Timer? _typewriterTimer;
 
   AiChatNotifier(this._geminiService)
-      : super(
-          const AiChatState(
-            messages: [],
-          ),
-        );
+    : super(
+        const AiChatState(
+          messages: [],
+        ),
+      );
 
   @override
   void dispose() {
@@ -88,6 +88,28 @@ class AiChatNotifier extends StateNotifier<AiChatState> {
     );
 
     final updatedMessages = [...state.messages, userMessage];
+
+    // Without the user's own API key the assistant cannot work — show a
+    // friendly onboarding hint instead of a technical error.
+    if (!_geminiService.hasApiKey) {
+      final isIndo = (languageCode ?? '').toLowerCase().startsWith('id');
+      state = state.copyWith(
+        messages: [
+          ...updatedMessages,
+          AiChatMessage(
+            id: (DateTime.now().millisecondsSinceEpoch + 1).toString(),
+            role: ChatRole.model,
+            text: isIndo
+                ? '⚙️ Sedra Assistant membutuhkan API Key Google AI Studio Anda sendiri.\n\nKetuk ikon pengaturan (⚙️) di halaman ini, lalu masukkan API Key gratis dari aistudio.google.com/apikey.'
+                : '⚙️ Sedra Assistant needs your own Google AI Studio API key.\n\nTap the settings icon (⚙️) on this page and enter a free API key from aistudio.google.com/apikey.',
+            timestamp: DateTime.now(),
+            isError: true,
+          ),
+        ],
+      );
+      return;
+    }
+
     state = state.copyWith(
       messages: updatedMessages,
       isThinking: true,
@@ -103,7 +125,9 @@ class AiChatNotifier extends StateNotifier<AiChatState> {
     final completer = Completer<void>();
 
     // Start super-fast, buttery-smooth typewriter animation ticker
-    _typewriterTimer = Timer.periodic(const Duration(milliseconds: 10), (timer) {
+    _typewriterTimer = Timer.periodic(const Duration(milliseconds: 10), (
+      timer,
+    ) {
       if (_isCancelled) {
         timer.cancel();
         if (!completer.isCompleted) completer.complete();
@@ -125,7 +149,10 @@ class AiChatNotifier extends StateNotifier<AiChatState> {
           step = 1;
         }
 
-        final nextLen = math.min(displayedText.length + step, targetText.length);
+        final nextLen = math.min(
+          displayedText.length + step,
+          targetText.length,
+        );
         displayedText = targetText.substring(0, nextLen);
 
         final modelMessage = AiChatMessage(
@@ -189,7 +216,8 @@ class AiChatNotifier extends StateNotifier<AiChatState> {
       final errorMessage = AiChatMessage(
         id: (DateTime.now().millisecondsSinceEpoch + 1).toString(),
         role: ChatRole.model,
-        text: '❌ Terjadi kendala saat menghubungi AI: $e\n\nPastikan koneksi internet aktif atau periksa pengaturan API key Anda.',
+        text:
+            '❌ Terjadi kendala saat menghubungi AI: $e\n\nPastikan koneksi internet aktif atau periksa pengaturan API key Anda.',
         timestamp: DateTime.now(),
         isError: true,
       );
@@ -230,7 +258,9 @@ class AiChatNotifier extends StateNotifier<AiChatState> {
   }
 }
 
-final aiChatProvider = StateNotifierProvider<AiChatNotifier, AiChatState>((ref) {
+final aiChatProvider = StateNotifierProvider<AiChatNotifier, AiChatState>((
+  ref,
+) {
   final service = ref.watch(geminiServiceProvider);
   return AiChatNotifier(service);
 });

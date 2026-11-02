@@ -6,7 +6,6 @@ import 'ai_chat_message.dart';
 import 'sedra_knowledge_base.dart';
 
 class GeminiService {
-  static const String _defaultApiKey = 'AQ.Ab8RN6LoHIani4bglOtxSakSpsGXN9lLNSan0EDBxY2WgVpNgg';
   static const String _prefApiKey = 'sedra_gemini_api_key';
   static const String _prefModel = 'sedra_gemini_model';
   static const String defaultModel = 'gemini-3.5-flash';
@@ -23,13 +22,18 @@ class GeminiService {
 
   GeminiService([this._prefs]);
 
+  /// The user's own Google AI Studio API key. There is intentionally no
+  /// built-in/default key: every user brings their own key so usage and
+  /// billing stay with the individual user.
   String get apiKey {
     final customKey = _prefs?.getString(_prefApiKey);
     if (customKey != null && customKey.trim().isNotEmpty) {
       return customKey.trim();
     }
-    return _defaultApiKey;
+    return '';
   }
+
+  bool get hasApiKey => apiKey.isNotEmpty;
 
   String get selectedModel {
     final model = _prefs?.getString(_prefModel);
@@ -51,12 +55,14 @@ class GeminiService {
     }
   }
 
-  Future<void> resetApiKey() async {
+  Future<void> clearApiKey() async {
     if (_prefs != null) {
       await _prefs.remove(_prefApiKey);
-      await _prefs.remove(_prefModel);
     }
   }
+
+  static const kMissingApiKeyMessage =
+      'Sedra Assistant requires an API key. Open Assistant settings and enter your own Google AI Studio API key (free at aistudio.google.com/apikey).';
 
   Future<String> generateSedraResponse({
     required String userPrompt,
@@ -64,6 +70,9 @@ class GeminiService {
     String? systemInstructionText,
   }) async {
     final key = apiKey;
+    if (key.isEmpty) {
+      throw Exception(kMissingApiKeyMessage);
+    }
     final primaryModel = selectedModel;
 
     // List of models to try in sequence if one is unavailable
@@ -75,7 +84,8 @@ class GeminiService {
     final contents = <Map<String, dynamic>>[];
 
     // System instruction
-    final instruction = systemInstructionText ?? SedraKnowledgeBase.getSystemInstruction();
+    final instruction =
+        systemInstructionText ?? SedraKnowledgeBase.getSystemInstruction();
     final systemInstruction = {
       'role': 'user',
       'parts': [
@@ -154,11 +164,13 @@ class GeminiService {
       );
 
       try {
-        final response = await http.post(
-          url,
-          headers: {'Content-Type': 'application/json'},
-          body: jsonEncode(requestBody),
-        ).timeout(const Duration(seconds: 30));
+        final response = await http
+            .post(
+              url,
+              headers: {'Content-Type': 'application/json'},
+              body: jsonEncode(requestBody),
+            )
+            .timeout(const Duration(seconds: 30));
 
         if (response.statusCode == 200) {
           final data = jsonDecode(response.body) as Map<String, dynamic>;
@@ -177,7 +189,8 @@ class GeminiService {
           return 'Maaf, tidak menerima teks balasan dari model $model.';
         } else {
           final errorData = jsonDecode(response.body);
-          lastError = errorData['error']?['message'] ?? 'Status ${response.statusCode}';
+          lastError =
+              errorData['error']?['message'] ?? 'Status ${response.statusCode}';
         }
       } catch (e) {
         lastError = e.toString();
@@ -193,6 +206,9 @@ class GeminiService {
     String? systemInstructionText,
   }) async* {
     final key = apiKey;
+    if (key.isEmpty) {
+      throw Exception(kMissingApiKeyMessage);
+    }
     final primaryModel = selectedModel;
 
     final modelsToTry = <String>[
@@ -203,7 +219,8 @@ class GeminiService {
     final contents = <Map<String, dynamic>>[];
 
     // System instruction
-    final instruction = systemInstructionText ?? SedraKnowledgeBase.getSystemInstruction();
+    final instruction =
+        systemInstructionText ?? SedraKnowledgeBase.getSystemInstruction();
     final systemInstruction = {
       'role': 'user',
       'parts': [
@@ -286,7 +303,9 @@ class GeminiService {
         request.headers['Content-Type'] = 'application/json';
         request.body = bodyJson;
 
-        final response = await client.send(request).timeout(const Duration(seconds: 30));
+        final response = await client
+            .send(request)
+            .timeout(const Duration(seconds: 30));
 
         if (response.statusCode == 200) {
           bool yieldedAny = false;
@@ -326,7 +345,9 @@ class GeminiService {
           final body = await response.stream.bytesToString();
           try {
             final errorData = jsonDecode(body);
-            lastError = errorData['error']?['message'] ?? 'Status ${response.statusCode}';
+            lastError =
+                errorData['error']?['message'] ??
+                'Status ${response.statusCode}';
           } catch (_) {
             lastError = 'Status ${response.statusCode}';
           }

@@ -57,7 +57,8 @@ class _AiSettingsDialogState extends ConsumerState<AiSettingsDialog> {
     try {
       localeStr = ref.watch(languageProvider).getLocaleString();
     } catch (_) {}
-    final isIndo = (localeStr ?? 'id').startsWith('id') ||
+    final isIndo =
+        (localeStr ?? 'id').startsWith('id') ||
         (localeStr ?? 'id').startsWith('ms');
 
     Future<void> saveKey() async {
@@ -65,11 +66,11 @@ class _AiSettingsDialogState extends ConsumerState<AiSettingsDialog> {
       final service = ref.read(geminiServiceProvider);
       await service.setModel(_selectedModel);
       if (key.isEmpty) {
-        await service.resetApiKey();
+        await service.clearApiKey();
         UIUtil.showSnackbar(
           isIndo
-              ? 'Pengaturan Assistant direset ke default.'
-              : 'Assistant settings reset to default.',
+              ? 'API key dihapus. Assistant nonaktif sampai Anda memasukkan API key sendiri.'
+              : 'API key removed. The assistant is disabled until you enter your own API key.',
         );
       } else {
         await service.setApiKey(key);
@@ -109,8 +110,8 @@ class _AiSettingsDialogState extends ConsumerState<AiSettingsDialog> {
             const SizedBox(height: 12),
             Text(
               isIndo
-                  ? 'Masukkan API Key kustom Anda jika tersedia. Jika dikosongkan, aplikasi akan menggunakan konfigurasi bawaan secara otomatis.'
-                  : 'Enter your custom API Key if available. If left empty, default built-in configuration will be used automatically.',
+                  ? 'Sedra Assistant memakai API key pribadi Anda — tidak ada key bawaan. Buat key gratis di aistudio.google.com/apikey lalu masukkan di bawah ini. Pemakaian dan kuota sepenuhnya mengikuti akun Google Anda.'
+                  : 'Sedra Assistant uses your own personal API key — there is no built-in key. Create a free key at aistudio.google.com/apikey and paste it below. Usage and quotas follow your own Google account.',
               style: styles.textStyleParagraphSmall,
             ),
             const SizedBox(height: 14),
@@ -118,7 +119,9 @@ class _AiSettingsDialogState extends ConsumerState<AiSettingsDialog> {
               controller: _controller,
               style: styles.textStyleParagraph,
               decoration: InputDecoration(
-                hintText: isIndo ? 'API Key (Opsional)' : 'API Key (Optional)',
+                hintText: isIndo
+                    ? 'Masukkan API Key Google AI Studio Anda'
+                    : 'Enter your Google AI Studio API Key',
                 hintStyle: styles.textStyleParagraphSmall,
                 filled: true,
                 fillColor: theme.backgroundDarkest,
@@ -139,7 +142,9 @@ class _AiSettingsDialogState extends ConsumerState<AiSettingsDialog> {
             const SizedBox(height: 16),
             Text(
               isIndo ? 'Versi Engine' : 'Engine Version',
-              style: styles.textStyleParagraphSmall.copyWith(fontWeight: FontWeight.bold),
+              style: styles.textStyleParagraphSmall.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 8),
             Container(
