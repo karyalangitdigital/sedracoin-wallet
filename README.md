@@ -123,6 +123,17 @@ sequenceDiagram
 ## Project Structure
 
 ```text
+.
+├── android/            # Android host app (Kotlin — com.karyalangitdigital.sedracoinwallet)
+├── ios/                # iOS host app (Swift — same bundle id)
+├── lib/                # Dart/Flutter source (feature-first modules)
+├── test/               # Unit & widget tests
+├── integration_test/   # On-device end-to-end smoke test
+├── docs/               # App screenshots & donation QR assets
+└── .github/            # CI workflow, issue & PR templates
+```
+
+```text
 lib/
   sedra/        # Core protocol: bip32/bip39, address, tx builder/signer, RPC (gRPC+REST), API
   wallet*/      # Wallet, keys, auth, balance, signer, home

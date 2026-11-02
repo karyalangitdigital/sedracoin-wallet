@@ -171,6 +171,12 @@ abstract class UIUtil {
           showSnackbar('Missing amount to send');
           return;
         }
+
+        Uint8List? payloadBytes;
+        if (uri.message != null && uri.message!.isNotEmpty) {
+          payloadBytes = stringToBytesUtf8(uri.message!);
+        }
+
         sendTx = walletService.createSendTx(
           toAddress: uri.address,
           amount: amount,
@@ -179,6 +185,7 @@ abstract class UIUtil {
           minFee: minFee,
           changeAddress: changeAddress.address,
           note: uri.message,
+          payload: payloadBytes,
         );
       } else {
         sendTx = walletService.createCompoundTx(
