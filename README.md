@@ -22,6 +22,7 @@
 - [What is Sedra Wallet?](#what-is-sedra-wallet)
 - [Key Features](#key-features)
   - [Core Wallet Capabilities](#core-wallet-capabilities)
+  - [Send & Receive Security](#send--receive-security)
   - [Built-in Sedra AI Assistant](#built-in-sedra-ai-assistant)
   - [Resilient Network Connectivity](#resilient-network-connectivity)
 - [Screenshots](#screenshots)
@@ -58,10 +59,21 @@ Developed by **KARYA LANGIT DIGITAL**.
 - **Crash-Resistant by Design**: The whole app boots inside a guarded zone with global Flutter and platform error handlers, so unexpected RPC or storage failures are logged instead of silently crashing the wallet.
 - **Multilingual Support**: Available in multiple languages to support Sedra's global community.
 
+### Send & Receive Security
+Hardened against common crypto-mobile attack vectors (clipboard swap, look-alike addresses, screen capture):
+
+- **Screen-Capture Protection**: On Android, `FLAG_SECURE` blocks screenshots, screen recording and the app preview in the recent-tasks switcher — seed phrases, addresses and amounts can never be captured by other apps or shoulder-surfing.
+- **Paste Warning**: When the destination address is pasted from the clipboard, the send sheet shows a verify-before-send warning (it clears on manual typing or contact selection) — awareness aid against clipboard address-substitution malware.
+- **Address Fingerprint**: The send confirmation screen highlights the first and last 4 characters of the destination so users can eyeball-match the address they were actually given.
+- **Own-Address Detection**: Sending to one of your own wallet addresses is almost always a mistake; the wallet detects it and requires explicit confirmation before continuing.
+- **Clipboard Auto-Clear**: After copying a receive/contact address, the clipboard is automatically wiped 60 seconds later — but only if its content still matches what the wallet put there, so anything else you copied in the meantime is untouched.
+
 ### Built-in Sedra AI Assistant
 - An integrated smart assistant powered by AI.
 - Exclusively dedicated to answering questions regarding the Sedra ecosystem, BlockDAG technology, SDR tokenomics, mining (kHeavyHash), and wallet usage.
 - Automatically adapts to the wallet's active language.
+- **Bring-Your-Own-Key (BYOK)**: There is no built-in or shared API key. Each user pastes their own free [Google AI Studio](https://aistudio.google.com/apikey) API key in Assistant settings, so usage and quotas always run on the individual's account. Leaving the field empty disables the assistant.
+- **Fixed Engine**: No engine-version picker — the assistant always uses the default model, with automatic fallback across supported models when one is unavailable on your key.
 
 ### Resilient Network Connectivity
 - **Smart Fallback Mechanism**: Interacts with the blockchain using high-performance gRPC over HTTP/2. If the node connection fails or ALPN is unsupported, the wallet instantly and gracefully falls back to the REST API without crashing or degrading user experience.

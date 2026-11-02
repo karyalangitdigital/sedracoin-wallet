@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+* **Send & Receive Security Hardening**: Android `FLAG_SECURE` (screenshots/recording/recent-app preview blocked), paste-from-clipboard address warning, 4-4 address fingerprint on the send confirmation screen, own-address detection with explicit confirmation, and 60-second clipboard auto-clear after copying receive/contact addresses.
+* **AI Assistant Bring-Your-Own-Key**: Removed the built-in Gemini API key entirely — every user must now enter their own Google AI Studio API key in Assistant settings; the chat shows a friendly onboarding hint when no key is set. The Engine Version dropdown was removed and the assistant always uses the default model with automatic fallback.
+* **Quieter Network Logging**: gRPC outage/recovery is now reported as a single state-transition line instead of repeated stack traces.
+
 ## 1.3.0 - Sedra Wallet (Karya Langit Digital)
 
 * **App Identity & Rebranding:** Completely rebranded to Sedra Wallet by Karya Langit Digital (`com.karyalangitdigital.sedracoinwallet`).
